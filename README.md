@@ -1,4 +1,4 @@
-# soullink
+# VueLocke
 
 ## Project setup
 ```
