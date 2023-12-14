@@ -1,39 +1,66 @@
 <template>
-    <div class="min-h-screen bg-gray-200 p-4">
-        <div v-if="!data.setupDone" class="flex space-x-4">
-            <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900">Region</label>
-                <select @change="selectedRegion($event)" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                    <option selected>Select a region</option>
-                    <option v-for="region in this.regions" :key="region.id">{{ region.name }}</option>
-                </select>
+    <div class="min-h-screen bg-gray-100 p-4">
+        <div v-if="!data.setupDone" class="flex flex-col sm:px-6 lg:px-8">
+            <div class="sm:mx-auto sm:w-full sm:max-w-md">
+                <h2 class="mt-6 text-center text-3xl font-extrabold text-gray-900">Pokemon Nuzlocke/Soul Link</h2>
+                <p class="mt-2 text-center text-sm text-gray-600"></p>
             </div>
 
-            <div v-for="(player, index) in data.players" :key="index">
-                <label class="block mb-2 text-sm font-medium text-gray-900">Player {{ index + 1 }}</label>
-                <input v-model="player.name" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-            </div>
+            <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700">Region</label>
+                            <div class="mt-1">
+                                <select @change="selectedRegion($event)"
+                                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                    <option selected>Select a region</option>
+                                    <option v-for="region in this.regions" :key="region.id">{{ region.name }}</option>
+                                </select>
+                            </div>
+                        </div>
 
-            <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900">Add player</label>
-                <button type="button" @click="addPlayer">
-                    <svg xmlns="http://www.w3.org/2000/svg" height="40" width="40" viewBox="0 0 512 512"><path fill="#0080ff" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
-                </button>
-            </div>
+                        <div v-for="(player, index) in data.players" :key="index" class="mt-1">
+                            <label class="block mb-2 text-sm font-medium text-gray-900">Player {{ index + 1 }}</label>
+                            <input v-model="player.name" type="text"
+                                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
+                        </div>
 
-            <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900">Setup</label>
-                <button type="button" @click="completeSetup" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Ready</button>
-            </div>
+                        <div class="mt-1">
+                            <label class="block mb-2 text-sm font-medium text-gray-900">Add player</label>
+                            <button type="button" @click="addPlayer">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="40" width="40" viewBox="0 0 512 512">
+                                    <path fill="#0080ff"
+                                          d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+                                </svg>
+                            </button>
+                        </div>
 
-            <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900">Restore session</label>
-                <button type="button" @click="restoreSession" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Retrieve</button>
-            </div>
+                        <div class="flex">
+                            <div class="mt-1">
+                                <label class="block mb-2 text-sm font-medium text-gray-900">Setup</label>
+                                <button type="button" @click="completeSetup"
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                                    Start
+                                </button>
+                            </div>
 
-            <div>
-                <label class="block mb-2 text-sm font-medium text-gray-900">Import Data</label>
-                <input type="file" accept=".json" @change="importData" class="text-white font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2"/>
+                            <div class="mt-1">
+                                <label class="block mb-2 text-sm font-medium text-gray-900">Restore session</label>
+                                <button type="button" @click="restoreSession"
+                                        class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                                    Retrieve
+                                </button>
+                            </div>
+
+                            <div class="mt-1">
+                                <label class="block mb-2 text-sm font-medium text-gray-900">Import Data</label>
+                                <input type="file" accept=".json" @change="importData"
+                                       class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -55,8 +82,9 @@
                     </thead>
                     <tbody>
                     <tr v-for="(catchingLocation, index) in data.catchingLocations" :key="index" class="bg-white">
-                        <td class="md:px-6 px-1 py-4">
-                            <select v-model="catchingLocation.name" @change="onLocationSelected($event, index)" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                        <td class="md:px-6 px-1 py-4 min-w-[150px]">
+                            <select v-model="catchingLocation.name" @change="onLocationSelected($event, index)"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                                 <option selected disabled>Select location</option>
                                 <option v-for="location in locations" :key="location.id" :value="location.name"
                                         :disabled="data.catchingLocations.some(catchLoc => catchLoc.name === location.name)">
@@ -67,12 +95,19 @@
                         <td v-for="(player, playerIndex) in data.players" :key="playerIndex" class="md:px-6 px-1 py-4">
                             <template v-if="pokemonImagesForLocations[`${playerIndex}-${catchingLocation.name}`]">
                                 <div class="w-20 h-20 overflow-hidden flex items-center justify-center">
-                                    <img @click="getPokemonEvolutions(pokemonImagesForLocations[`${playerIndex}-${catchingLocation.name}`][0], playerIndex, index)" :src="pokemonImagesForLocations[`${playerIndex}-${catchingLocation.name}`]" alt="Pokemon Image" class="max-w-full max-h-full cursor-pointer"/>
+                                    <img
+                                        @click="getPokemonEvolutions(pokemonImagesForLocations[`${playerIndex}-${catchingLocation.name}`][0], playerIndex, index)"
+                                        :src="pokemonImagesForLocations[`${playerIndex}-${catchingLocation.name}`]"
+                                        alt="Pokemon Image" class="max-w-full max-h-full cursor-pointer"/>
                                 </div>
                             </template>
                             <template v-else>
                                 <button @click="openModal(playerIndex)" type="button">
-                                    <svg xmlns="http://www.w3.org/2000/svg" height="40" width="40" viewBox="0 0 512 512"><path fill="#0080ff" d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/></svg>
+                                    <svg xmlns="http://www.w3.org/2000/svg" height="40" width="40"
+                                         viewBox="0 0 512 512">
+                                        <path fill="#0080ff"
+                                              d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM232 344V280H168c-13.3 0-24-10.7-24-24s10.7-24 24-24h64V168c0-13.3 10.7-24 24-24s24 10.7 24 24v64h64c13.3 0 24 10.7 24 24s-10.7 24-24 24H280v64c0 13.3-10.7 24-24 24s-24-10.7-24-24z"/>
+                                    </svg>
                                 </button>
                             </template>
                         </td>
@@ -81,7 +116,8 @@
                         <td class="md:px-6 px-1 py-4">
                             <template v-for="(player, playerIndex) in data.players" :key="playerIndex">
                                 <span v-for="(pokemonId, index) in catchingLocation.pokemons" :key="index">
-                                    <span v-if="player.pokemons.party.some(pokemon => pokemon.id === pokemonId) || player.pokemons.box.some(pokemon => pokemon.id === pokemonId) || player.pokemons.fainted.some(pokemon => pokemon.id === pokemonId)">
+                                    <span
+                                        v-if="player.pokemons.party.some(pokemon => pokemon.id === pokemonId) || player.pokemons.box.some(pokemon => pokemon.id === pokemonId) || player.pokemons.fainted.some(pokemon => pokemon.id === pokemonId)">
                                         {{ getPlayerPokemonNickname(player, pokemonId) }}
                                         <span v-if="index < catchingLocation.pokemons.length - 1"> & </span>
                                     </span>
@@ -89,79 +125,121 @@
                             </template>
                         </td>
 
-                        <td class="md:px-6 px-1 py-4">
-                            <select v-model="catchingLocation.storage" @change="onStorageChanged($event, index)" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                                <option :value="'party'" :selected="catchingLocation.storage === 'party'" :disabled="data.players[0].pokemons.party.length >= 6">Party</option>
+                        <td class="md:px-6 px-1 py-4 min-w-[100px]">
+                            <select v-model="catchingLocation.storage" @change="onStorageChanged($event, index)"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                                <option :value="'party'" :selected="catchingLocation.storage === 'party'"
+                                        :disabled="data.players[0].pokemons.party.length >= 6">Party
+                                </option>
                                 <option :value="'box'" :selected="catchingLocation.storage === 'box'">Box</option>
-                                <option :value="'fainted'" :selected="catchingLocation.storage === 'fainted'">Fainted</option>
+                                <option :value="'fainted'" :selected="catchingLocation.storage === 'fainted'">Fainted
+                                </option>
                             </select>
                         </td>
                     </tr>
                     </tbody>
                 </table>
                 <div class="md:px-6 px-4 py-4">
-                    <button type="button" @click="addCatchingLocation" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Add location</button>
+                    <button type="button" @click="addCatchingLocation"
+                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                        Add location
+                    </button>
                 </div>
             </div>
 
-            <div class="flex flex-col">
-                <div class="flex-1">
-                    <table class="w-full text-sm text-left rtl:text-right text-gray-500">
-                        <caption class="p-5 text-lg font-semibold text-left rtl:text-right text-gray-900 bg-white">
-                            Party
-                        </caption>
-                        <tbody>
-                        <tr class="bg-white mb-2 border-b-2 border-gray-200">
-                            <td v-for="(player, playerIndex) in this.data.players" :key="playerIndex" class="px-4 py-4 w-1/6">
-                                <template v-for="index in 6" :key="index">
-                                    <div v-if="player.pokemons.party.length >= index" class="flex items-center space-x-2">
-                                        <div class="flex items-center">
-                                            <template v-if="pokemonImagesForLocations[`${playerIndex}-${player.pokemons.party[index - 1].location}`]">
-                                                <div class="w-20 h-20 overflow-hidden flex items-center justify-center">
-                                                    <img :src="pokemonImagesForLocations[`${playerIndex}-${player.pokemons.party[index - 1].location}`]" alt="Pokemon Image" class="max-w-full max-h-full">
-                                                </div>
-                                            </template>
-                                            <span class="font-bold">{{ player.pokemons.party[index - 1].nickname || player.pokemons.party[index - 1].pokemon }}</span>
+            <div class="flex lg:flex-row flex-col col-span-full justify-center lg:space-x-12">
+                <div class="flex flex-col">
+                    <div class="flex-1">
+                        <label class="block text-sm font-bold text-gray-700 py-6">Party</label>
+                        <table class="w-full text-sm text-left rtl:text-right text-gray-500">
+                            <tbody>
+                            <tr class="bg-white mb-2 border-b-2 border-gray-200">
+                                <td v-for="(player, playerIndex) in this.data.players" :key="playerIndex"
+                                    class="px-4 py-4 w-1/6">
+                                    <template v-for="index in 6" :key="index">
+                                        <div v-if="player.pokemons.party.length >= index"
+                                             class="flex items-center space-x-2">
+                                            <div class="flex items-center">
+                                                <template
+                                                    v-if="pokemonImagesForLocations[`${playerIndex}-${player.pokemons.party[index - 1].location}`]">
+                                                    <div class="w-20 h-20 overflow-hidden flex items-center justify-center">
+                                                        <img
+                                                            :src="pokemonImagesForLocations[`${playerIndex}-${player.pokemons.party[index - 1].location}`]"
+                                                            alt="Pokemon Image" class="max-w-full max-h-full">
+                                                    </div>
+                                                </template>
+                                                <span class="font-bold">{{ player.pokemons.party[index - 1].nickname || player.pokemons.party[index - 1].pokemon }}</span>
+                                            </div>
                                         </div>
+                                        <div v-else class="w-20 h-20 overflow-hidden flex items-center justify-center">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="#ED4956" viewBox="0 0 24 24"
+                                                 stroke="#fff" class="w-10 h-10">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                      d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9zm0-2a7 7 0 100-14 7 7 0 000 14z"/>
+                                                <circle cx="12" cy="12" r="5" fill="#fff"/>
+                                            </svg>
+                                        </div>
+                                    </template>
+                                </td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="relative flex-none">
+                    <label class="block text-sm font-bold text-gray-700 py-6">Box</label>
+                    <table class="max-w-full max-h-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-cover bg-center table-fixed rounded-lg" style="background-image: url('/box_background_8.png');">
+                        <tbody>
+                        <tr v-for="(row, rowIndex) in BoxedPokemonTable" :key="rowIndex">
+                            <td v-for="(cell, colIndex) in row" :key="colIndex" class="px-1 sm:px-2 md:px-4 py-1 sm:py-2 md:py-4">
+                                <template v-if="cell">
+                                    <div class="w-full max-h-[40px] max-w-[40px] aspect-w-1 aspect-h-1 flex items-center justify-center">
+                                        <img :src="pokemonImagesForLocations[`${cell.playerIndex}-${cell.location}`]" alt="Pokemon Image" class="max-w-full max-h-full object-cover"/>
                                     </div>
-                                    <div v-else class="flex items-center justify-center w-10 h-10">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="#ED4956" viewBox="0 0 24 24" stroke="#fff" class="w-10 h-10">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9zm0-2a7 7 0 100-14 7 7 0 000 14z"/>
-                                            <circle cx="12" cy="12" r="5" fill="#fff"/>
-                                        </svg>
-                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="w-full min-w-[40px] min-h-[40px]"></div>
                                 </template>
                             </td>
                         </tr>
-
                         </tbody>
                     </table>
                 </div>
-            </div>
 
-            <div class="relative lg:col-start-3">
-                <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-cover bg-center" style="background-image: url('/box_background.png');">
-                    <tbody>
-                    <tr v-for="(row, rowIndex) in computedTableData" :key="rowIndex">
-                        <td v-for="(cell, colIndex) in row" :key="colIndex" class="px-4 py-4 w-16 h-16">
-                            <template v-if="cell">
-                                <div class="w-12 h-12 overflow-hidden flex items-center justify-center">
-                                    <img :src="pokemonImagesForLocations[`${cell.playerIndex}-${cell.location}`]" alt="Pokemon Image" class="max-w-full max-h-full" />
-                                </div>
-                            </template>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
 
-            <div class="px-6">
-                <button type="button" @click="exportData" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">Export Data</button>
+                <div class="relative">
+                    <label class="block text-sm font-bold text-gray-700 py-6">Fainted</label>
+                    <table class="max-w-full max-h-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 bg-cover bg-center table-fixed rounded-lg" style="background-image: url('/box_background_2.png');">
+                        <tbody>
+                        <tr v-for="(row, rowIndex) in FaintedPokemonTable" :key="rowIndex">
+                            <td v-for="(cell, colIndex) in row" :key="colIndex" class="px-1 sm:px-2 md:px-4 py-1 sm:py-2 md:py-4">
+                                <template v-if="cell">
+                                    <div class="w-full max-h-[40px] max-w-[40px] aspect-w-1 aspect-h-1 flex items-center justify-center">
+                                        <img :src="pokemonImagesForLocations[`${cell.playerIndex}-${cell.location}`]" alt="Pokemon Image" class="max-w-full max-h-full object-cover grayscale"/>
+                                    </div>
+                                </template>
+                                <template v-else>
+                                    <div class="w-full min-w-[40px] min-h-[40px]"></div>
+                                </template>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div class="py-6">
+                        <button type="button" @click="exportData"
+                                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2">
+                            Export Data
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div v-if="isOpen">
-            <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+                 aria-modal="true">
                 <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
                          aria-hidden="true"></div>
@@ -188,20 +266,28 @@
                                 </div>
                                 <div>
                                     <label class="block mb-2 text-sm font-medium text-gray-900">Nickname</label>
-                                    <input v-model="givenNickname" type="text" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
+                                    <input v-model="givenNickname" type="text"
+                                           class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"/>
                                 </div>
                                 <div class="mt-2">
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input type="checkbox" v-model="pokemonCaught" class="sr-only peer" checked>
-                                        <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                        <div
+                                            class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
                                         <span class="ms-3 text-sm font-medium text-gray-900">Caught?</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
                         <div class="mt-5 sm:mt-6 sm:grid sm:grid-cols-2 sm:gap-3 sm:grid-flow-row-dense">
-                            <button @click="addPokemon()" type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm">Add</button>
-                            <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm" @click="this.isOpen = false">Cancel</button>
+                            <button @click="addPokemon()" type="button"
+                                    class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-indigo-600 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:col-start-2 sm:text-sm">
+                                Add
+                            </button>
+                            <button type="button"
+                                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
+                                    @click="this.isOpen = false">Cancel
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -209,25 +295,33 @@
         </div>
 
         <div v-if="evolutionModalOpen">
-            <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+            <div class="fixed z-10 inset-0 overflow-y-auto" aria-labelledby="modal-title" role="dialog"
+                 aria-modal="true">
                 <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity"
                          aria-hidden="true"></div>
                     <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
                           aria-hidden="true">&#8203;</span>
-                    <div class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
+                    <div
+                        class="relative inline-block align-bottom bg-white rounded-lg px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
                         <div>
                             <div class="mt-3 sm:mt-5">
-                                <h3 class="text-lg text-center leading-6 font-medium text-gray-900" id="modal-title">Choose evolution</h3>
+                                <h3 class="text-lg text-center leading-6 font-medium text-gray-900" id="modal-title">
+                                    Choose evolution</h3>
                             </div>
                             <div class="flex flex-wrap justify-center items-center space-x-10">
                                 <div v-for="(evolution, index) in evolutionsList" :key="index" class="mb-4">
-                                    <img :src="evolution.image" :alt="evolution.name + ' image'" @click="changePokemonEvolution(index, evolution.name)" class="cursor-pointer max-w-full">
+                                    <img :src="evolution.image" :alt="evolution.name + ' image'"
+                                         @click="changePokemonEvolution(index, evolution.name)"
+                                         class="cursor-pointer max-w-full">
                                 </div>
                             </div>
                         </div>
                         <div class="mt-5 sm:mt-6 sm:grid sm:gap-3 sm:grid-flow-row-dense">
-                            <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm" @click="this.evolutionModalOpen = false">Cancel</button>
+                            <button type="button"
+                                    class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:col-start-1 sm:text-sm"
+                                    @click="this.evolutionModalOpen = false">Cancel
+                            </button>
                         </div>
                     </div>
 
@@ -239,10 +333,11 @@
 
 <script>
 import Multiselect from "vue-multiselect";
+
 export default {
     name: "App",
 
-    components: { Multiselect },
+    components: {Multiselect},
 
     data() {
         return {
@@ -335,7 +430,7 @@ export default {
             return pokemonImages;
         },
 
-        computedTableData() {
+        BoxedPokemonTable() {
             const columns = 6;
             const rows = 5;
             const tableData = [];
@@ -356,7 +451,53 @@ export default {
                         if (emptyCellIndex !== -1) {
                             const rowIndex = Math.floor(emptyCellIndex / columns);
                             const colIndex = emptyCellIndex % columns;
-                            tableData[rowIndex][colIndex] = { ...pokemon, playerIndex };
+                            tableData[rowIndex][colIndex] = {...pokemon, playerIndex};
+                            remainingPokemons.push(key);
+                        }
+                    }
+                });
+            });
+
+            return tableData;
+        },
+
+        faintedPokemons() {
+            const allPlayers = this.players || [];
+            const allFaintedPokemons = [];
+
+            // Iterate through each player
+            allPlayers.forEach((player) => {
+                const faintedPokemons = player.pokemons.fainted || [];
+
+                // Add fainted Pokémon to the result array
+                allFaintedPokemons.push(...faintedPokemons);
+            });
+
+            return allFaintedPokemons;
+        },
+
+        FaintedPokemonTable() {
+            const columns = 6;
+            const rows = 5;
+            const tableData = [];
+
+            // Generate empty cells
+            for (let rowIndex = 0; rowIndex < rows; rowIndex++) {
+                const row = Array(columns).fill(null);
+                tableData.push(row);
+            }
+
+            // Replace empty cells with Pokémon from the box
+            let remainingPokemons = [];
+            this.data.players.forEach((player, playerIndex) => {
+                player.pokemons.fainted.forEach((pokemon) => {
+                    const key = `${playerIndex}-${pokemon.location}`;
+                    if (!remainingPokemons.includes(key)) {
+                        const emptyCellIndex = tableData.flat().indexOf(null);
+                        if (emptyCellIndex !== -1) {
+                            const rowIndex = Math.floor(emptyCellIndex / columns);
+                            const colIndex = emptyCellIndex % columns;
+                            tableData[rowIndex][colIndex] = {...pokemon, playerIndex};
                             remainingPokemons.push(key);
                         }
                     }
@@ -485,7 +626,7 @@ export default {
 
                             const fallbackImageUrl = sprites.front_default;
 
-                            this.evolutionsList.push({ name: evolutionSpecies, image: imageUrl || fallbackImageUrl });
+                            this.evolutionsList.push({name: evolutionSpecies, image: imageUrl || fallbackImageUrl});
                         })
                         .catch((error) => {
                             console.error(error);
@@ -585,7 +726,7 @@ export default {
                             player.pokemons.box.find(p => p.id === pokemonId) ||
                             player.pokemons.fainted.find(p => p.id === pokemonId);
 
-                        return existingPokemon ? { ...existingPokemon, storage: newStorageType } : null;
+                        return existingPokemon ? {...existingPokemon, storage: newStorageType} : null;
                     })
                 ].filter(Boolean); // Remove potential null entries from the array
 
@@ -622,7 +763,7 @@ export default {
 
         exportData() {
             const jsonData = JSON.stringify(this.data);
-            const blob = new Blob([jsonData], { type: 'application/json' });
+            const blob = new Blob([jsonData], {type: 'application/json'});
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
             link.download = 'exported_data.json';
