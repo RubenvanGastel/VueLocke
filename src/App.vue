@@ -55,8 +55,7 @@
 
                             <div class="mt-1">
                                 <label class="block mb-2 text-sm font-medium text-gray-900">Import Data</label>
-                                <input type="file" accept=".json" @change="importData"
-                                       class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
+                                <input type="file" accept=".json" @change="importData" class="block w-full max-w-[69px] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
                             </div>
                         </div>
                     </div>
@@ -65,7 +64,7 @@
         </div>
 
         <div v-if="data.setupDone" class="grid lg:grid-cols-4 grid-cols-1 space-x-6">
-            <div class="relative lg:col-span-4">
+            <div class="relative lg:col-span-4 overflow-x-auto">
                 <table class="w-full text-sm text-left rtl:text-right text-gray-500">
                     <thead class="text-xs text-gray-900 uppercase">
                     <tr>
