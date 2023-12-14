@@ -53,7 +53,7 @@
                                 </button>
                             </div>
 
-                            <div class="mt-1">
+                            <div class="mt-1 hidden">
                                 <label class="block mb-2 text-sm font-medium text-gray-900">Import Data</label>
                                 <input type="file" accept=".json" @change="importData" class="block w-full max-w-[69px] text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 focus:outline-none">
                             </div>
